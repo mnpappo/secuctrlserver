@@ -39,8 +39,15 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Admin Panel">
+          <a class="nav-link" href="/admin">
+            <i class="fa fa-fw fa-unlock"></i>
+            <span class="nav-link-text">Admin Panel</span>
+          </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="/">
             <i class="fa fa-fw fa-dashboard"></i>
             <span class="nav-link-text">Dashboard</span>
           </a>
@@ -152,7 +159,7 @@
         <li class="breadcrumb-item">
           <a href="#">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">My Dashboard</li>
+        <li class="breadcrumb-item active">Main Dashboard</li>
       </ol>
       <!-- Icon Cards-->
       <div class="row">
@@ -325,7 +332,6 @@
       </div>
     </div>
     <!-- Bootstrap core JavaScript-->
-    
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <!-- Core plugin JavaScript-->
     <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
