@@ -131,3 +131,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # geolocation field, map api key
 GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyBZelnMG_vOfvPjsjJxCmgJpQxJg5Jmb_E'
+
+#hi
