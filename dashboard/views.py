@@ -10,6 +10,23 @@ import socketio
 
 from .models import *
 
+
+
+def send_sms(text, from_number='+12766018359', to='+8801821081270'):
+    from twilio.rest import Client
+    # Your Account Sid and Auth Token from twilio.com/console
+    account_sid = 'AC38a5c8b35d68abae9d17f53faea79f81'
+    auth_token = '885f0596dd532d9d8bb0403d47170325'
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        body=text,
+        from_=from_number,
+        to=to
+    )
+    print(message.sid)
+    return message.sid
+
+
 async_mode = "threading"
 
 
@@ -70,7 +87,9 @@ def background_thread():
         n = NotificationLog(sensor_name='flame', sensor_value=sensor_value,
                             device=device, notification_time=mgs.get('time'))
         n.save()
-
+        mgs_text = 'Fire Alarm!!!!!!!!! \n Device Name: ' + \
+            str(device.name) + '\n Notification Time: ' + str(mgs.get('time'))
+        # send_sms(mgs_text)
         print('flame_response: ', mgs)
         sio.emit('flame_response', mgs, namespace='/test')
 

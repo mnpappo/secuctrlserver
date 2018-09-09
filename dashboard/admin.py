@@ -55,3 +55,5 @@ class GuardAdmin(admin.ModelAdmin):
         return mark_safe('<a target="_blank" class="button" href="/admin/dashboard/device/{device_id}/change/"> Device Details </a>'.format(device_id=obj.device.id))
     device_info.allow_tags = True
     device_info.short_description = 'Device Info/Deployed Position'
+
+    list_filter = ('client', 'device')
