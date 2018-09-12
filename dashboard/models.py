@@ -72,21 +72,17 @@ class Guard(models.Model):
 
 
 class NotificationLog(models.Model):
-    sensor_name = models.CharField(max_length=40, help_text="From Which Sensor the Inrusion Occured")
+    STATUS = (
+        ('monitor', 'Monitor'),
+        ('false', 'False Alarm'),
+        ('warning', 'Warning'),
+        ('intrusion', 'Intrusion'),
+    )
+    sensor_name = models.CharField(max_length=100, help_text="From Which Sensor the Inrusion Occured")
     sensor_value = models.CharField(max_length=100, help_text="From Which Sensor the Inrusion Occured", default='None')
+    notification_status = models.CharField(choices=STATUS, max_length=10, help_text="Notification Type", default='monitor')
     device = models.ForeignKey('Device', on_delete=models.SET_NULL, null=True)
     notification_time = models.DateTimeField(help_text="When the inrusion created at device.", default=now, blank=True)
-
-    # @classmethod
-    # def create(cls, sensor_name, sensor_value, device, notification_time):
-    #     notification = cls(
-    #         sensor_name=sensor_name,
-    #         sensor_value=sensor_value,
-    #         device=device,
-    #         notification_time=notification_time
-    #         )
-    #     # do something with the notification
-    #     return notification
 
     def __str__(self):
         """

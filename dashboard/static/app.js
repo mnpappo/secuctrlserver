@@ -2,7 +2,7 @@ $(document).ready(function () {
     // device data from server
     
     // console.log(devices);
-    console.log(window.device_data);
+    // console.log(window.device_data);
     // map functionalities
     $("#goole_live_map").googleMap({
         zoom: 15, // Initial zoom level (optional)
@@ -23,9 +23,6 @@ $(document).ready(function () {
             title: '<a href="http://' + single_device.device_ip + ':'+ single_device.device_port +'" target="_blank">' + single_device.device_code_name + '</a>', // Title
             text: single_device.position_address,
             icon: icon,
-            success: function (e) {
-                console.log(e)
-            }
         });
         
     });

@@ -1,21 +1,37 @@
 from django.contrib import admin
 from .models import Device, Client, Guard, NotificationLog
-
+import datetime
 from django.urls import reverse
 from django.utils.html import mark_safe
+from rangefilter.filter import DateRangeFilter, DateTimeRangeFilter
 # Register your models here.
+
+
+def status_false_alarm(modeladmin, request, queryset):
+    queryset.update(notification_status='false')
+status_false_alarm.short_description = "Change To False Alarm"
+
+def status_warning(modeladmin, request, queryset):
+    queryset.update(notification_status='warning')
+status_warning.short_description = "Change To Warning"
+
+def status_intrusion(modeladmin, request, queryset):
+    queryset.update(notification_status='intrusion')
+status_intrusion.short_description = "Change To Intrusion"
 
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['client_name', 'client_email', 'client_phone']
 
 @admin.register(NotificationLog)
 class NotificationLogAdmin(admin.ModelAdmin):
     list_display = ['sensor_name', 'sensor_value',
-                    'device', 'notification_time']
-    # date_hierarchy = 'pub_date'
-    list_filter = ('sensor_name', 'device')
+                    'device', 'notification_time', 'notification_status']
+    
+    list_filter = (('notification_time', DateTimeRangeFilter),
+                   'sensor_name', 'device', 'notification_status')
+    actions = [status_false_alarm, status_warning, status_intrusion]
 
 @admin.register(Device)
 class DeviceAdmin(admin.ModelAdmin):

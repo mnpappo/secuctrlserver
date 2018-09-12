@@ -99,10 +99,10 @@ var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {
   type: 'pie',
   data: {
-    labels: ["False Alarm", "Alarm", "Warning"],
+    labels: ["Monitoring", "False Alarm", "Alarm", "Warning"],
     datasets: [{
-      data: [121, 158, 15],
-      backgroundColor: ['#007bff', '#dc3545', '#ffc107'],
+      data: [window.todays_total_monitor, window.todays_total_false, window.todays_total_warning, window.todays_total_intrusion],
+      backgroundColor: ['#28a745', '#007bff', '#dc3545', '#ffc107'],
     }],
   },
 });

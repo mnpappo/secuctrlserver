@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core import serializers
+from datetime import date
 
 from socketIO_client import SocketIO, LoggingNamespace, BaseNamespace
 import socketio
@@ -57,19 +58,35 @@ def index(request):
     number_of_devices = Device.objects.all().count()
     number_of_clients = Client.objects.all().count()
     number_of_guards = Guard.objects.all().count()
+    number_of_active = Device.objects.filter(device_status="active").count()
+    number_of_inactive = Device.objects.filter(device_status="inactive").count()
+    todays_total_log = NotificationLog.objects.filter(notification_time__date=date.today()).count()
+    todays_total_monitor = NotificationLog.objects.filter(notification_time__date=date.today(), notification_status='monitor').count()
+    todays_total_warning = NotificationLog.objects.filter(notification_time__date=date.today(), notification_status='warning').count()
+    todays_total_false = NotificationLog.objects.filter(notification_time__date=date.today(), notification_status='false').count()
+    todays_total_intrusion = NotificationLog.objects.filter(notification_time__date=date.today(), notification_status='intrusion').count()
     print(number_of_devices)
-    data = serializers.serialize(
-        'json', Device.objects.all(), fields=('device_code_name', 'position_address', 'device_ip', 'device_port', 'lattitude', 'longitude', 'device_status'))
+    data = serializers.serialize( 'json', Device.objects.all(), fields=('device_code_name', 'position_address', 'device_ip', 'device_port', 'lattitude', 'longitude', 'device_status'))
 
     global thread
     if thread is None:
         thread = sio.start_background_task(background_thread)
+
+    # chart maker
+    # notification_chart = chart_maker()
 
     return render(request, 'dashboard/index.html', {
         'devices': data, 
         'number_of_devices': number_of_devices, 
         'number_of_clients': number_of_clients, 
         'number_of_guards': number_of_guards,
+        'number_of_active': number_of_active,
+        'number_of_inactive': number_of_inactive,
+        'todays_total_log': todays_total_log,
+        'todays_total_monitor': todays_total_monitor,
+        'todays_total_warning': todays_total_warning,
+        'todays_total_false': todays_total_false,
+        'todays_total_intrusion': todays_total_intrusion,
         })
 
 
